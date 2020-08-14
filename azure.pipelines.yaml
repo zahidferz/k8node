@@ -81,7 +81,7 @@ stages:
         command: 'package'
         chartPath: '$(System.DefaultWorkingDirectory)/k8chart'
         destination: '$(System.DefaultWorkingDirectory)'
-        arguments: '--app-version v1.0.1'
+        arguments: '--app-version v1.0.1 --set-string timestamp=v$(Build.BuildNumber)'
 
     - task: HelmDeploy@0
       inputs:
