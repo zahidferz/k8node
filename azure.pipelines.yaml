@@ -18,12 +18,5 @@ resources:
     endpoint: gx-github
     ref: master #branch name
 
-stages:
-- stage: dev
-  displayName: dev
-
-  jobs:
-  - job: Initial
-    displayName: Initial
-    steps:
-    - template: /Common/keyvault.yaml
+extends:
+  template: Node/custom.yaml@gx-devops-yamls
