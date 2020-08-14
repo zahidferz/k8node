@@ -50,9 +50,9 @@ stages:
           foreach ($value in $key ){
               $secretstore=(Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name) -name $value).SecretValueText
               $keystore=$value.Replace("-","_")
-              Add-Content $(Agent.BuildDirectory)/env.txt "$keystore=$secretstore"
+              Add-Content $(System.DefaultWorkingDirectory)/env.txt "$keystore=$secretstore"
           }
-          get-content $(Agent.BuildDirectory)/env.txt
+          get-content $(System.DefaultWorkingDirectory)/env.txt
           ls
           pwd
         azurePowerShellVersion: 'LatestVersion'
