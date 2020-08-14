@@ -55,15 +55,12 @@ stages:
           get-content $(Agent.BuildDirectory)/env.txt
         azurePowerShellVersion: 'LatestVersion'
         
-#    - task: Kubernetes@1
-#      inputs:
-#        connectionType: 'Kubernetes Service Connection'
-#        kubernetesServiceEndpoint: 'Keleva'
-#        namespace: 'default'
-#        command: 'apply'
-#        arguments: '-k .'
-#        secretType: 'dockerRegistry'
-#        containerRegistryType: 'Azure Container Registry'
-#        azureSubscriptionEndpointForSecrets: 'gx-azure'
-#        azureContainerRegistry: 'elevacontainerregistry.azurecr.io'
-#        secretName: 'elevacont'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'Keleva'
+        namespace: 'default'
+        command: 'apply'
+        arguments: '-k .'
+      env:
+        secret: $(KeyVault.Name)
