@@ -53,7 +53,7 @@ stages:
               Add-Content $(System.DefaultWorkingDirectory)/env.txt "$keystore=$secretstore"
           }
           get-content $(System.DefaultWorkingDirectory)/env.txt
-          ((Get-Content -path $(System.DefaultWorkingDirectory)/kustomization.yaml) -replace 'KEYVAULT-SECRET',$(KeyVault.Name)) | Set-Content -Path $(System.DefaultWorkingDirectory)/kustomization.yaml
+          ((Get-Content -path $(System.DefaultWorkingDirectory)/kustomization.yaml) -replace 'KEYVAULT-SECRET', "$(KeyVault.Name)") | Set-Content -Path $(System.DefaultWorkingDirectory)/kustomization.yaml
           ls
           pwd
         azurePowerShellVersion: 'LatestVersion'
