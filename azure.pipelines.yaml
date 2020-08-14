@@ -59,9 +59,21 @@ stages:
         azurePowerShellVersion: 'LatestVersion'
         
     - task: Kubernetes@1
+      displayName: 'k apply secretes'
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'Keleva'
         namespace: 'kv'
         command: 'apply'
         arguments: '-k .'
+
+    - task: Kubernetes@1
+      displayName: 'k apply deployment'
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'Keleva'
+        command: 
+        useConfigurationFile: true
+        configuration: '$(System.DefaultWorkingDirectory)/deploy.yaml'
+
+
