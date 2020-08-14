@@ -18,7 +18,7 @@ spec:
       containers:
       - name: ngin
         image: nginx
-        imagePullPolicy: always
+        imagePullPolicy: Always
         envFrom:
         - secretRef:
             name: kustomization
