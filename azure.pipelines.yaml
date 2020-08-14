@@ -1,5 +1,4 @@
 
-name: $(SourceBranchName)
 pool:
   vmImage: 'Ubuntu-16.04'
 
