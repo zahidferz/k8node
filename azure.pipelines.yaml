@@ -53,6 +53,8 @@ stages:
               Add-Content $(Agent.BuildDirectory)/env.txt "$keystore=$secretstore"
           }
           get-content $(Agent.BuildDirectory)/env.txt
+          ls
+          pwd
         azurePowerShellVersion: 'LatestVersion'
         
     - task: Kubernetes@1
