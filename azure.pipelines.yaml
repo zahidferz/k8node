@@ -94,7 +94,7 @@ stages:
         chartType: 'FilePath'
         chartPath: '$(System.DefaultWorkingDirectory)/node-1.0.0.tgz'
         releaseName: '$(Build.DefinitionName)'
-        overrideValues: 'v$(Build.BuildNumber)'
+        overrideValues: 'timestamp=v$(Build.BuildNumber)'
 
 
 
