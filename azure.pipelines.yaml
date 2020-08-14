@@ -50,9 +50,9 @@ stages:
          foreach ($value in $key ){
              $secretstore=(Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name) -name $value).SecretValueText
              $keystore=$value.Replace("-","_")
-             Add-Content "env.txt" "$keystore=$secretstore"
-             cat env.txt
+             Add-Content $(Agent.BuildDirectory)/env.txt "$keystore=$secretstore"
          }
+         get-content $(Agent.BuildDirectory)/env.txt
         
 #    - task: Kubernetes@1
 #      inputs:
