@@ -72,7 +72,7 @@ stages:
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'Keleva'
-        command: 
+        command: 'apply'
         useConfigurationFile: true
         configuration: '$(System.DefaultWorkingDirectory)/deploy.yaml'
 
