@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  boa-nginx
+  name:  boa-ngin
   namespace: kv
   labels:
     app: boa-ngin
 spec:
   selector:
     matchLabels:
-      app: boa-nginx
+      app: boa-ngin
   replicas: 1
   template:
     metadata:
