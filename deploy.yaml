@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  boa-nginx
+  namespace: kv
+  labels:
+    app: boa-ngin
+spec:
+  selector:
+    matchLabels:
+      app: boa-nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: boa-ngin
+    spec:
+      containers:
+      - name: ngin
+        image: nginx
+        envFrom:
+        - secretRef:
+            name: kustomization
+      imagePullSecrets:
+      - name: elevacontainerregistry
