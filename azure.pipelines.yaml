@@ -67,13 +67,31 @@ stages:
         command: 'apply'
         arguments: '-k .'
 
-    - task: Kubernetes@1
-      displayName: 'k apply deployment'
+#    - task: Kubernetes@1
+#      displayName: 'k apply deployment'
+#      inputs:
+#        connectionType: 'Kubernetes Service Connection'
+#        kubernetesServiceEndpoint: 'Keleva'
+#        command: 'apply'
+#        useConfigurationFile: true
+#        configuration: '$(System.DefaultWorkingDirectory)/deploy.yaml'
+
+    - task: HelmDeploy@0
+      inputs:
+        command: 'package'
+        chartPath: '$(System.DefaultWorkingDirectory)/k8chart'
+        destination: '$(System.DefaultWorkingDirectory)'
+        arguments: '--app-version v1.0.1'
+
+    - task: HelmDeploy@0
       inputs:
         connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'Keleva'
-        command: 'apply'
-        useConfigurationFile: true
-        configuration: '$(System.DefaultWorkingDirectory)/deploy.yaml'
+        kubernetesServiceConnection: 'Keleva'
+        namespace: 'kv'
+        command: 'upgrade'
+        chartType: 'FilePath'
+        chartPath: '$(System.DefaultWorkingDirectory)/node-1.0.0.tgz'
+        releaseName: '$(Build.DefinitionName)'
+
 
 
