@@ -41,18 +41,19 @@ stages:
     - task: AzurePowerShell@4
       displayName: 'Get keys'
       inputs:
-        azureSubscription: $(azureSubscriptionEndpoint)
-        ScriptType: InlineScript
+        azureSubscription: '$(azureSubscriptionEndpoint)'
+        ScriptType: 'InlineScript'
         Inline: |
-         $keys = (Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name)).name 
-         $key= $keys.Split(" ")
-         $keyvalue= @{}
-         foreach ($value in $key ){
-             $secretstore=(Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name) -name $value).SecretValueText
-             $keystore=$value.Replace("-","_")
-             Add-Content $(Agent.BuildDirectory)/env.txt "$keystore=$secretstore"
-         }
-         get-content $(Agent.BuildDirectory)/env.txt
+          $keys = (Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name)).name 
+          $key= $keys.Split(" ")
+          $keyvalue= @{}
+          foreach ($value in $key ){
+              $secretstore=(Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name) -name $value).SecretValueText
+              $keystore=$value.Replace("-","_")
+              Add-Content $(Agent.BuildDirectory)/env.txt "$keystore=$secretstore"
+          }
+          get-content $(Agent.BuildDirectory)/env.txt
+        azurePowerShellVersion: 'LatestVersion'
         
 #    - task: Kubernetes@1
 #      inputs:
