@@ -18,5 +18,51 @@ resources:
     endpoint: gx-github
     ref: master #branch name
 
-extends:
-  template: Node/custom.yaml@gx-devops-yamls
+stages:
+- stage: dev
+  displayName: dev
+
+  jobs:
+  - job: Initial
+    displayName: Initial
+    steps:
+    - task: AzureCLI@1
+      displayName: Determining KeyVault
+      inputs:
+        azureSubscription: $(azureSubscriptionEndpoint)
+        scriptLocation: inlineScript
+        inlineScript: |
+          ValueVault="$(Build.DefinitionName)-$(System.StageName)"
+          KeyVault="$(az keyvault secret show --vault-name Eleva-Core-KeyVault --name $ValueVault --query value -o tsv)"
+          echo "---$KeyVault----"
+          echo "##vso[task.setvariable variable=Name;isOutput=true]$KeyVault"
+      name: KeyVault
+  
+    - task: AzurePowerShell@4
+      displayName: 'Get keys'
+      inputs:
+        azureSubscription: $(azureSubscriptionEndpoint)
+        ScriptType: InlineScript
+        Inline: |
+         $keys = (Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name)).name 
+         $key= $keys.Split(" ")
+         $keyvalue= @{}
+         foreach ($value in $key ){
+             $secretstore=(Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name) -name $value).SecretValueText
+             $keystore=$value.Replace("-","_")
+             Add-Content "env.txt" "$keystore=$secretstore"
+             cat env.txt
+         }
+        
+#    - task: Kubernetes@1
+#      inputs:
+#        connectionType: 'Kubernetes Service Connection'
+#        kubernetesServiceEndpoint: 'Keleva'
+#        namespace: 'default'
+#        command: 'apply'
+#        arguments: '-k .'
+#        secretType: 'dockerRegistry'
+#        containerRegistryType: 'Azure Container Registry'
+#        azureSubscriptionEndpointForSecrets: 'gx-azure'
+#        azureContainerRegistry: 'elevacontainerregistry.azurecr.io'
+#        secretName: 'elevacont'
