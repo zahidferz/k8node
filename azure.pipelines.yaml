@@ -81,7 +81,7 @@ stages:
         command: 'package'
         chartPath: '$(System.DefaultWorkingDirectory)/k8chart'
         destination: '$(System.DefaultWorkingDirectory)'
-        arguments: '--app-version v1.0.1 --set-string timestamp=v$(Build.BuildNumber)'
+        arguments: '--app-version v1.0.1'
 
     - task: HelmDeploy@0
       inputs:
@@ -92,6 +92,8 @@ stages:
         chartType: 'FilePath'
         chartPath: '$(System.DefaultWorkingDirectory)/node-1.0.0.tgz'
         releaseName: '$(Build.DefinitionName)'
+        overrideValues: 'v$(Build.BuildNumber)'
+        recreate: true
 
 
 
