@@ -68,7 +68,8 @@ stages:
         kubernetesServiceEndpoint: 'Keleva'
         namespace: '$(ResourceGroup)-dev'
         command: 'apply'
-        arguments: '-k .'
+        arguments: '-k $(System.DefaultWorkingDirectory)'
+
 
 #    - task: Kubernetes@1
 #      displayName: 'k apply deployment'
