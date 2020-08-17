@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: "{{ .Values.appname }}-{{ .Values.stagename }}"
+  namespace: "{{ .Values.namespace }}-{{ .Values.stagename }}"
+spec:
+  hosts:
+  - 'work.eleva.inc'
+  gateways:
+  - https-work-eleva-gateway
+  http:
+  - name: 
+    match: "{{ .Values.appname }}-{{ .Values.stagename }}"
+    - headers: 
+        back:
+          exact: "{{ .Values.appname }}-{{ .Values.stagename }}"
+    route:
+    - destination:
+        host: "{{ .Values.appname }}-{{ .Values.stagename }}"
+        port:
+          number: 80

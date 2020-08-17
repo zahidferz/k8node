@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  boa-ngin
-  namespace: kv
+  name:  "{{ .Values.appname }}"
+  namespace: "{{ .Values.namespace }}-{{ .Values.stagename }}"
   labels:
-    app: boa-ngin
+    app: "{{ .Values.appname }}"
 spec:
   selector:
     matchLabels:
-      app: boa-ngin
+      app: "{{ .Values.appname }}"
   replicas: 1
   template:
     metadata:
       labels:
-        app: boa-ngin
+        app: "{{ .Values.appname }}"
       annotations:
         timestamp: "{{ .Values.timestamp }}"
     spec:
       containers:
-      - name: ngin
-        image: nginx
+      - name: app
+        image: "elevacontainerregistry.azurecr.io/{{ .Values.imagename }}:{{ .Values.imagetag}}"
         imagePullPolicy: Always
         envFrom:
         - secretRef:
-            name: kustomization
+            name: "{{ .Values.keyvault }}"
       imagePullSecrets:
       - name: elevacontainerregistry

@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: boa-ngin
+  name: "{{ .Values.appname }}-{{ .Values.stagename }}"
+  namespace: "{{ .Values.namespace }}-{{ .Values.stagename }}"
 spec:
   selector:
-    app: boa-ngin
+    app: "{{ .Values.appname }}" 
   ports:
   - port: 80
     targetPort: 80
