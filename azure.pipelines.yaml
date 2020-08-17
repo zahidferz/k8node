@@ -85,7 +85,7 @@ stages:
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'Keleva'
-        namespace: 'kv'
+        namespace: "$(ResourceGroup)-dev"
         command: 'upgrade'
         chartType: 'FilePath'
         chartPath: '$(System.DefaultWorkingDirectory)/node-1.0.0.tgz'
