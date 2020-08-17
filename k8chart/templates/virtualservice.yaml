@@ -11,7 +11,7 @@ spec:
   - mesh
   http:
   - name: 
-    match: "{{ .Values.appname }}-{{ .Values.stagename }}"
+    match:
     - headers: 
         back:
           exact: "{{ .Values.appname }}-{{ .Values.stagename }}"
