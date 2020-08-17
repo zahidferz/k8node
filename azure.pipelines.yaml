@@ -38,7 +38,7 @@ stages:
       name: KeyVault
   
     - task: AzurePowerShell@4
-      displayName: 'Get keys'
+      displayName: 'Apply Secrets'
       inputs:
         azureSubscription: '$(azureSubscriptionEndpoint)'
         ScriptType: 'InlineScript'
@@ -49,22 +49,19 @@ stages:
           foreach ($value in $key ){
               $secretstore=(Get-AzKeyVaultSecret  -VaultName $(KeyVault.Name) -name $value).SecretValueText
               $keystore=$value.Replace("-","_")
+              if ($secretstore -match 'azurewebsites.net' -and $secretstore -notlike '*fn*' -and $secretstore -notlike '*functions*' -and $secretstore -notlike '*gestionix*'){
+              $secretstore=$secretstore -match '(?<=\/\/)(.*?)(?=\.)'
+              $secretstore=$Matches[0]
+              }elseif ($secretstore -like 'https://app-dev.chain.inc') {
+              $secretstore=https://https://work.eleva.inc
+              }
               Add-Content $(System.DefaultWorkingDirectory)/env.txt "$keystore=$secretstore"
           }
           get-content $(System.DefaultWorkingDirectory)/env.txt
           ((Get-Content -path $(System.DefaultWorkingDirectory)/kustomization.yaml) -replace 'KEYVAULT-SECRET', "$(KeyVault.Name)") | Set-Content -Path $(System.DefaultWorkingDirectory)/kustomization.yaml
-          ls
-          pwd
+          kubectl apply -k $(System.DefaultWorkingDirectory)
         azurePowerShellVersion: 'LatestVersion'
         
-    - task: Kubernetes@1
-      displayName: 'k apply secretes'
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'Keleva'
-        namespace: 'kv'
-        command: 'apply'
-        arguments: '-k .'
 
 #    - task: Kubernetes@1
 #      displayName: 'k apply deployment'
