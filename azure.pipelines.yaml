@@ -59,9 +59,16 @@ stages:
           }
           get-content $(System.DefaultWorkingDirectory)/env.txt
           ((Get-Content -path $(System.DefaultWorkingDirectory)/kustomization.yaml) -replace 'KEYVAULT-SECRET', "$(KeyVault.Name)") | Set-Content -Path $(System.DefaultWorkingDirectory)/kustomization.yaml
-          kubectl apply -k $(System.DefaultWorkingDirectory)
         azurePowerShellVersion: 'LatestVersion'
         
+    - task: Kubernetes@1
+      displayName: 'k apply secretes'
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'Keleva'
+        namespace: '$(ResourceGroup)-dev'
+        command: 'apply'
+        arguments: '-k .'
 
 #    - task: Kubernetes@1
 #      displayName: 'k apply deployment'
