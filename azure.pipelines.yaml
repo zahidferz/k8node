@@ -90,7 +90,7 @@ stages:
         chartType: 'FilePath'
         chartPath: '$(System.DefaultWorkingDirectory)/node-1.0.0.tgz'
         releaseName: '$(Build.DefinitionName)'
-        overrideValues: 'timestamp=v$(Build.BuildNumber),appname=$(Build.DefinitionName),namespace=$(ResourceGrouP),imagename=nginx,stagename=dev,keyvault=$(Build.DefinitionName)'
+        overrideValues: 'timestamp=v$(Build.BuildNumber),appname=$(Build.DefinitionName),namespace=$(ResourceGroup),imagename=nginx,stagename=dev,keyvault=$(Build.DefinitionName)'
 
 
 
