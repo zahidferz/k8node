@@ -10,8 +10,8 @@ spec:
   - eleva-reliability-room/https-work-eleva-gateway
   - mesh
   http:
-  - name: 
-    match:
+  - name: "{{ .Values.appname }}-{{ .Values.stagename }}"
+    match: 
     - headers: 
         back:
           exact: "{{ .Values.appname }}-{{ .Values.stagename }}"
