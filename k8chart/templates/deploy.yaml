@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: "elevacontainerregistry.azurecr.io/{{ .Values.imagename }}:{{ .Values.imagetag}}"
+        image: "elevacontainerregistry.azurecr.io/{{ .Values.imagename }}:{{ .Values.imagetag }}"
         imagePullPolicy: Always
         envFrom:
         - secretRef:
