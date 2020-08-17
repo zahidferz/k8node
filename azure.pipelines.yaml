@@ -53,7 +53,7 @@ stages:
               $secretstore=$secretstore -match '(?<=\/\/)(.*?)(?=\.)'
               $secretstore=$Matches[0]
               }elseif ($secretstore -like 'https://app-dev.chain.inc') {
-              $secretstore=https://https://work.eleva.inc
+              $secretstore='https://https://work.eleva.inc'
               }
               Add-Content $(System.DefaultWorkingDirectory)/env.txt "$keystore=$secretstore"
           }
