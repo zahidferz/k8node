@@ -1,5 +1,4 @@
 
-name: $(SourceBranchName)
 pool:
   vmImage: 'Ubuntu-16.04'
 
@@ -77,6 +76,7 @@ stages:
 #        configuration: '$(System.DefaultWorkingDirectory)/deploy.yaml'
 
     - task: HelmDeploy@0
+      displayName: 'Package Chart'
       inputs:
         command: 'package'
         chartPath: '$(System.DefaultWorkingDirectory)/k8chart'
@@ -84,6 +84,7 @@ stages:
         arguments: '--app-version v1.0.1'
 
     - task: HelmDeploy@0
+      displayName: 'Deploy Chart'
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: 'Keleva'
@@ -92,6 +93,7 @@ stages:
         chartType: 'FilePath'
         chartPath: '$(System.DefaultWorkingDirectory)/node-1.0.0.tgz'
         releaseName: '$(Build.DefinitionName)'
+        overrideValues: 'timestamp=v$(Build.BuildNumber)'
 
 
 
