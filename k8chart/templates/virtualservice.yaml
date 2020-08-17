@@ -7,7 +7,8 @@ spec:
   hosts:
   - 'work.eleva.inc'
   gateways:
-  - https-work-eleva-gateway
+  - eleva-reliability-room/https-work-eleva-gateway
+  - mesh
   http:
   - name: 
     match: "{{ .Values.appname }}-{{ .Values.stagename }}"
